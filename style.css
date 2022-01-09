@@ -43,15 +43,16 @@
 }
 
 #navbar{
-    font-family:Arial, Helvetica, sans-serif;   
+    font-family:Arial, Helvetica, sans-serif;  
 }
 
 #bg{
     background: #6dbbad;
     background-image: url("CryptaraIcon.png");
-    background-blend-mode:color-burn;
+    background-blend-mode:soft-light;
     background-size: 200px;
     background-position:unset;
     background-position-x: 50px;
     background-position-y: 100px;
     background-repeat:space;
+}
