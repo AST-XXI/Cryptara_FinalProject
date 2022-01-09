@@ -48,5 +48,10 @@
 
 #bg{
     background: #6dbbad;
-    back
-}
+    background-image: url("CryptaraIcon.png");
+    background-blend-mode:color-burn;
+    background-size: 200px;
+    background-position:unset;
+    background-position-x: 50px;
+    background-position-y: 100px;
+    background-repeat:space;
