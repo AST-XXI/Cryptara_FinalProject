@@ -16,7 +16,6 @@ import time
 import numpy as np
 from pycoingecko import CoinGeckoAPI
 from textblob import TextBlob
-from wordcloud import WordCloud
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import requests
 from requests import Request, Session
