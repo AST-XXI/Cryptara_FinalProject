@@ -17,7 +17,7 @@ Cryptara Developers: Alexis Santoyo Torres, Andrew Brown, Aaron Price, Jake Teel
 - Run data analysis through ML portion 
 2) Use Azure Virtual Machine to deploy & continue app development across the cloud
 
-3) [Moralis/Web3 Token Swap](https://ast-xxi.github.io/Cryptara_FinalProject/)
+3) [Moralis Web3 Token Swap](https://ast-xxi.github.io/Cryptara_FinalProject/)
 
 ![TaraSwap](/photos/TaraSwapPreview.PNG)
 - A plugin that allows users to swap tokens in-app
