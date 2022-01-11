@@ -18,6 +18,8 @@ Cryptara Developers: Alexis Santoyo Torres, Andrew Brown, Aaron Price, Jake Teel
 2) Use Azure Virtual Machine to deploy & continue app development across the cloud
 
 3) [Moralis/Web3 Token Swap](https://ast-xxi.github.io/Cryptara_FinalProject/)
+
+![TaraSwap](/photos/TaraSwapPreview.png)
 - A plugin that allows users to swap tokens in-app
 - Moralis 1inch plugin integrates Defi/DEX aggregator 1inch
 - Works with Ethereum, Binance Smart Chain & Polygon blockchains
