@@ -21,8 +21,8 @@ Cryptara Developers: Alexis Santoyo Torres, Andrew Brown, Aaron Price, Jake Teel
 
 ![TaraSwap](/photos/TaraSwapPreview.PNG)
 - Web3 application that allows users to swap tokens in-app
-- Utilizes Moralis 1Inch plugin which integrates DEX aggregator 1Inch
-- Works with Ethereum, Binance Smart Chain, Polygon, Avalanche, and Fantom blockchains
+- Utilizes Moralis 1inch plugin which integrates DEX aggregator 1inch
+- Works with Ethereum, Binance Smart Chain, and Polygon blockchains
 ---
 ## The final product will:
 - Provide insight into the cryptocurrency market
