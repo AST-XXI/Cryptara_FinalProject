@@ -50,7 +50,7 @@
 
 #bg{
     background: #6dbbad;
-    background-image: url("../photos/CryptaraIcon.png");
+    background-image: url("./photos/CryptaraIcon.png");
     background-blend-mode:soft-light;
     background-size: 200px;
     background-position:unset;
