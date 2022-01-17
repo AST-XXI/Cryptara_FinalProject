@@ -1,3 +1,5 @@
+![](/photos/cryptara_logo_1.PNG)
+
 # Cryptara Final Project
 Northwestern University Fintech Bootcamp
 
