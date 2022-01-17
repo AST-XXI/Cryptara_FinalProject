@@ -1,4 +1,4 @@
-![](/photos/cryptara_logo_1.png)
+<img src="/photos/cryptara_logo_1.png" alt="drawing" width="500"/>
 
 # Cryptara Final Project
 Northwestern University Fintech Bootcamp
@@ -21,7 +21,7 @@ Cryptara Developers: Alexis Santoyo Torres, Andrew Brown, Aaron Price, Jake Teel
 
 3) Cryptara Web3 Front End: [TaraSwap💱](https://ast-xxi.github.io/Cryptara_FinalProject/)
 
-![TaraSwap](/photos/TaraSwapPreview.PNG)
+<img src="/photos/TaraSwapPreview.PNG" alt="drawing" width="1000"/>
 - Web3 application that allows users to swap tokens in-app
 - Utilizes Moralis 1inch plugin which integrates DEX aggregator 1inch
 - Works with Ethereum blockchain
