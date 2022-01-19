@@ -100,7 +100,6 @@ ____
 ## Future Project Development
 
 - Web3 portfolio tracker
-- Building Cryptara into a one-stop-shop DEX
 - Transactions placed on Cryptara’s own PoS network
 - Award users with native coins to incentivize using the network for transactions
 - Using Cryptara as a tool for analysis/monitoring blockchain data
