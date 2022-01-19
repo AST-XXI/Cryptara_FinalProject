@@ -72,7 +72,7 @@ python main.py
   - This feature requires an active TradingView & Twitter Developer account
 ___
 
-![swap](Images/swap.jpg)
+<img src="Images/taraswap_screenshot.PNG" width="500"/>
 ___
 
 ![pyqt](Images/pyqt.png) ![pyqt2](Images/pyqt-style.png)
