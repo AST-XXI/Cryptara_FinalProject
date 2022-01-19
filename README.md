@@ -11,14 +11,15 @@
 
 1) Market Analysis Algorithm
 
-- Collects oscillator and momentum indicators from TradingView
-- Runs classification model to determine buy/sell/hold
+- Conducts Technical Analysis with oscillators and momentum indicators from TradingView
+- Leverages Twitter API to run Natural Language Processing to determine current market sentiment
+
 
 2) Cryptara Web3 Front End: [TaraSwap](https://ast-xxi.github.io/Cryptara_FinalProject/)💱
 
 - Web3 application that allows users to swap tokens in-app
 - Utilizes Moralis 1inch plugin which integrates DEX aggregator 1inch
-- Works with Ethereum blockchains
+- Works with Ethereum blockchain
 
 ---
 
