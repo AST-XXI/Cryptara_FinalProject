@@ -46,7 +46,11 @@ ___
 python main.py  
 ```
 
+<<<<<<< HEAD
 ![bc](Images/taraui.png)
+=======
+![bc](Images/taraui.PNG)
+>>>>>>> 793f13306772d61fdcf3d224ccc00430d56dd78b
 
 ## Interacting with Application Buttons
 
@@ -62,6 +66,11 @@ python main.py
 
   - Sign into Metamask and start trading on the Blockchain!
 
+- Run Websocket:
+
+  - Get real-time data by connecting the websocket functionality
+
+  - This feature requires an active TradingView & Twitter Developer account
 ___
 
 ![swap](Images/swap.jpg)
