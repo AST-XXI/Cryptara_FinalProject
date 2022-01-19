@@ -1,3 +1,6 @@
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 from distutils.util import strtobool
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QCheckBox
@@ -21,7 +24,7 @@ class Main(QMainWindow):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(210, 140, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(300, 220, 150, 100))
         self.pushButton.setObjectName("pushButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
@@ -30,13 +33,17 @@ class Main(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Run"))
-        self.pushButton.clicked.connect(self.algo)
+        self.pushButton.setText(_translate("MainWindow", "Run-Websocket"))
+        self.pushButton.clicked.connect(self.results)
 
     
     def algo(self):
         import algo
-        algo.print_results()
+
+    
+    def results(self):
+        import results
+        results.print_results()
 
 
 def main():

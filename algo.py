@@ -4,38 +4,24 @@ from datetime import datetime, timedelta
 import os
 time = datetime.now()
 import pandas as pd
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+lemmatizer = WordNetLemmatizer()
 from runapp import Main
 #Import dependencies
 from tradingview_ta import TA_Handler, Interval
 from finta import TA
 from pyod.models.copod import COPOD
 import pandas as pd 
-import nltk
-import hvplot.pandas
-import time
 import numpy as np
 from pycoingecko import CoinGeckoAPI
 from textblob import TextBlob
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import requests
-from requests import Request, Session
-from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from ibm_watson import ToneAnalyzerV3
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import os
-import json
 from pandas import json_normalize
-from ibm_watson import ToneAnalyzerV3
 import re
-import json
-from pandas import json_normalize
-import os
-import ast
 import tweepy
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
@@ -45,25 +31,11 @@ coins = cg.get_coins()
 screener = 'CRYPTO'
 
 #Activate environment variables
-consumer_key = os.getenv("consumer_key")
-consumer_secret = os.getenv("consumer_secret")
-access_token = os.getenv("access_token")
-access_secret = os.getenv("access_secret")
-tone_api = os.getenv("tone_api")
-bearer_token = os.getenv("bearer_token")
-consumer_key = os.getenv("consumer_key")
-consumer_secret_key = os.getenv("consumer_secret")
-
-
-#Twitter & Reddit credentials
-reddit_id = os.getenv("reddit_id")
-reddit_key = os.getenv("reddit_key")
-data = ast.literal_eval(os.getenv("reddit_data"))
-auth = requests.auth.HTTPBasicAuth(reddit_id, reddit_key)
-headers = {'User-Agent': 'TaraRedditApi/0.0.1'}
-
-res = requests.post('https://www.reddit.com/api/v1/access_token',
-                   auth=auth, data=data, headers=headers)
+consumer_key = os.getenv("tapi_key")
+consumer_secret = os.getenv("tapi_secret")
+access_token = os.getenv("taccess_token")
+access_secret = os.getenv("taccess_secret")
+bearer_token = os.getenv("tbearer_token")
 
 #Twitter credentials
 authenticate = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -88,7 +60,34 @@ print('Top Fifty Market Cap Cryptocurrencies')
 print('')
 print(tickers_denominated)
 
-#Grab indicator recommendations from Trading View API
+influencers = ['CryptoPriceCall','HourlyBTCUpdate','whale_alert', 'nftwhalealert']
+
+#Extract 15 tweets from each twitter user timeline
+recent_twitter_df = pd.DataFrame()
+for influencer in influencers:
+    recent_posts = api.user_timeline(screen_name = influencer, count=10, tweet_mode='extended')
+    data = pd.DataFrame( [tweet.full_text for tweet in recent_posts] , columns=['Tweets'])
+    recent_twitter_df = recent_twitter_df.append(data)
+
+
+def clean_text(text):
+    regex = re.compile("[^a-zA-Z0-9]")
+    re_clean = regex.sub(' ', text)
+    words = word_tokenize(re_clean)
+    return words
+
+recent_twitter_df['Tweets'] = recent_twitter_df['Tweets'].apply(clean_text)
+
+big_movers=recent_twitter_df["Tweets"][1:9]
+bitcoin=recent_twitter_df["Tweets"][10:19]
+blockchain=recent_twitter_df["Tweets"][20:29]
+nft=recent_twitter_df["Tweets"][30:39]
+
+big_movers.to_csv('Data/Functionality/Twitter/big_movers.csv')
+bitcoin.to_csv('Data/Functionality/Twitter/bitcoin.csv')
+blockchain.to_csv('Data/Functionality/Twitter/blockchain.csv')
+nft.to_csv('Data/Functionality/Twitter/nft.csv')
+
 print(f'Extracting analyst recommendations (buys and strong buys)')
 print('')
 from tradingview_ta import TA_Handler, Interval, Exchange
@@ -129,7 +128,6 @@ analyst_recommendations = analyst_recommendations[~analyst_recommendations.str.c
 analyst_recommendations.to_csv('Data/tickers.csv')
 cryptos = analyst_recommendations.index.values.tolist()
 print(cryptos)
-
 
 #Configure algo strategy
 def algo_strategy(time_series):
@@ -229,28 +227,6 @@ def algo_strategy(time_series):
         previous_candle = candle
         previous_returns = returns
 
-#Configure Linear Regression analysis
-def linear_regression_analysis(data):
-    time_series = data.copy()
-    projection = 30
-    time_series['prediction'] = time_series[['close']].shift(-projection)
-    X = np.array(time_series[['close']])
-    X = X[:-projection]
-    scaler = StandardScaler()
-    y = time_series['prediction'].values
-    y = y[:-projection]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.20, shuffle=False)
-    lin_reg = LinearRegression()
-    lin_reg.fit(X_train, y_train)
-    lr_confidence = lin_reg.score(X_test, y_test)
-    x_projection = np.array(time_series[['close']])[-projection:]
-    linear_prediction = lin_reg.predict(x_projection)
-    linear_pred_df = pd.DataFrame(linear_prediction)
-    forecasted_trend = linear_pred_df.hvplot.line( 
-        label=f'Forecasted trend of {tickers}, Confidence Score;{lr_confidence}', rot=90
-    ).opts(yformatter="%.0f")
-    hvplot.save(forecasted_trend, f"Data/Functionality/Linear_Regression/linear_model_predictions_{tickers}.html")
-    return linear_pred_df
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -267,8 +243,6 @@ from tvDatafeed import TvDatafeed,Interval
 #Run Algo strategy & Linear Regression analaysis on each crypto 
 tradev_id = os.getenv("username")
 tradev_secret_key = os.getenv("password_tv")
-import logging
-from tvDatafeed import TvDatafeed,Interval
 tv = TvDatafeed(tradev_id, tradev_secret_key, chromedriver_path=None)
 
 crypto_data = pd.DataFrame()
@@ -304,8 +278,6 @@ try:
             y_train_pred = clf.labels_
             data['anomoly'] = y_train_pred
             algo_strategy(data)
-            prediction = linear_regression_analysis(data)
-            predictions[tickers] = prediction
             data.to_csv(f'Data/Functionality/Algo_Bot/{tickers}.csv')
             crypto_data = crypto_data.append(data)
         except:
@@ -329,167 +301,30 @@ try:
             data[['exchange', 'ticker']] = data['symbol'].str.split(':',expand=True)
             data=data.drop(columns=["symbol"])
             data=data.drop(columns=["exchange"])
-            clf = COPOD()
-            X = data.iloc[:,:15]
-            clf.fit(X)
-            y_train_pred = clf.labels_
-            data['anomoly'] = y_train_pred
             algo_strategy(data)
-            prediction = linear_regression_analysis(data)
-            predictions[tickers] = prediction
-            data.to_csv(f'Data/Functionality/Algo_Bot/{tickers}.csv')
+            data.to_csv(f'Data/Functionality/TradingView/{tickers}.csv')
             crypto_data = crypto_data.append(data)
 except:
-    print('ERROR: Check for websocket upgrade, ensure dependencies in requirements.txt are installed, or try CONDA UPDATE CONDA')
+    print('You must have TradingView credentials to extract data via websocket')
 print(f'Extracted prices and calculated oscillator/momentum indicator values')
 
 
-#Isolate individual ticker data from main dataframe, visualize sample
-dataset = crypto_data.copy()
-isolation = dict()
-for k, v in dataset.groupby('ticker'):
-    isolation[k] = v
-
-single_ticker = isolation[cryptos[0]].copy()
-relocation = single_ticker.pop("profit")
-ticker = single_ticker.pop("ticker")
-single_ticker.insert(0, "Algo_Profit", relocation)
-single_ticker.insert(1, "Crypto", ticker)
-single_ticker.tail(3)
-
-
-reddit_path = r"Data/Functionality/Reddit/"
-algo_path = r"Data/Functionality/Algo_Bot/"
-twitter_sentiment = pd.read_csv('Data/Functionality/Twitter/subjectivity_and_polarity.csv')
-extension = '.csv'
-
-def Average(lst):
-    return sum(lst) / len(lst)
-
-def Sum(lst):
-    return sum(lst) / len(lst)
-
-def format_convert(x):
-    try:
-        return "{:.0%}".format(x)
-    except:
-        return "{:.0%}".format(float(x))
-
-def dollar_sign(x):
-    return "${:,.2f}".format(x)
-
-file_names = []
-reddit_data = {}
-for root, dirs_list, files_list in os.walk(reddit_path):
-    for file_name in files_list:
-        if os.path.splitext(file_name)[-1] == extension:
-            file_name_path = os.path.join(root, file_name)
-            data = pd.read_csv(file_name_path)
-            reddit_data[file_name] = data
-            file_names.append(file_name)
-
-compound_scores = []
-for crypto_sentiment in file_names:
-    positive = (reddit_data[crypto_sentiment]['compound'][1])
-    compound_scores.append(positive)
-compound_sentiment = Average(compound_scores)
-
-#Algo strategy results
-algo_crypto = []
-investment_algorithm = {}
-for root, dirs_list, files_list in os.walk(algo_path):
-    for file_name in files_list:
-        if os.path.splitext(file_name)[-1] == extension:
-            file_name_path = os.path.join(root, file_name)
-            data = pd.read_csv(file_name_path)
-            investment_algorithm[file_name] = data
-            algo_crypto.append(file_name)
-
-#Google Results
-google_corr = pd.read_csv('Data/Functionality/Google/Correlation.csv', index_col='Unnamed: 0')
-google_sent = pd.read_csv('Data/Functionality/Google/Sentiments.csv')
-gcrypto_trends=google_sent['crypto_choice_avg'].mean()
-ginflation_trends=google_sent['inflation_headlinese_avg'].mean()
-genergy_trends=google_sent['energy_consumption_avg'].mean()
-
-total_profit = []
-for algo in algo_crypto:
-    total_returns = (investment_algorithm[algo]['profit'].iloc[-1])
-    total_profit.append(total_returns)
-total_profit = sum(total_profit)
-
-#Twitter results
-twitter_sentiment = pd.read_csv('Data/Functionality/Twitter/subjectivity_and_polarity.csv')
-sentiment_counts = twitter_sentiment["Analysis"].value_counts('Positive')
-subjectivity = format_convert(twitter_sentiment['Subjectivity'].mean())
-polarity = format_convert(twitter_sentiment['Polarity'].mean())
-try:
-    positive_posts = format_convert(sentiment_counts['Positive'])
-except:
-    pass
-try:
-    neutral_posts = format_convert(sentiment_counts['Neutral'])
-except:
-    pass
-try:
-    negative_posts = format_convert(sentiment_counts['Negative'])
-except:
-    pass
-
-twitter_market_sentiment = pd.read_csv('Data/Functionality/Twitter/market_sentiment_analysis.csv')
-market_sentiment_counts = twitter_market_sentiment["Analysis"].value_counts('Positive')
-market_subjectivity = format_convert(twitter_market_sentiment['Subjectivity'].mean())
-market_polarity = format_convert(twitter_market_sentiment['Polarity'].mean())
-
-try: 
-    market_positive_posts = format_convert(market_sentiment_counts['Positive'])
-except:
-    pass
-try:
-    market_neutral_posts = format_convert(market_sentiment_counts['Neutral'])
-except:
-    pass
-try:
-    market_negative_posts = format_convert(market_sentiment_counts['Negative'])
-except:
-    pass
-print('')
-print('')
-print('Import print_results()')
-
-class print_results(Main):
-    print('')
-    print('')
-    print(f'The top picks have a {compound_sentiment} Average Compound Score on Reddit at {time}.') 
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print(f'Overall Crypto Market Sentiment: Twitter scanned at {time}')
-    print('')
-    print(f'{market_positive_posts} of their posts have a positive tone.')
-    print('')
-    print(f'{market_negative_posts} of their posts have a negative tone.')
-    print('')
-    print(f'The remaining {market_neutral_posts} of their posts have a neutral tone.')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print(f'Top Influential Icons in the Cryptocurrency market: Twitter scanned at {time}')
-    print('')
-    print(f'{positive_posts} of their posts have a positive tone.')
-    print('')
-    print(f'{negative_posts} of their posts have a negative tone.')
-    print('')
-    print(f'The remaining {neutral_posts} of their posts have a neutral tone.')
-    print('')
-    print('')
-    print('') 
-    print('')
-    print('')
-    print('')
-    print('')
+top_ten_marketcap = tv.get_hist(
+    symbol='CRYPTO10',
+    exchange="EIGHTCAP",
+    interval=Interval.in_30_minute,n_bars=5000)
+top_ten_marketcap.drop(columns=['volume'], inplace=True)
+top_ten_marketcap['adjusted'] = ((top_ten_marketcap['open']+top_ten_marketcap['high']+top_ten_marketcap['low']+top_ten_marketcap['close']) / 4)
+top_ten_marketcap['adjusted'] = top_ten_marketcap['adjusted'].astype('int64') 
+top_ten_marketcap['top_ten_marketcap'] = top_ten_marketcap['adjusted'].pct_change()
+top_ten_marketcap['candle'] = (top_ten_marketcap['close'] - top_ten_marketcap['open'])
+bbands_df = TA.BBANDS(top_ten_marketcap)
+top_ten_marketcap['bb_upper'] = bbands_df['BB_UPPER']
+top_ten_marketcap['bb_middle'] = bbands_df['BB_MIDDLE']
+top_ten_marketcap['bb_lower'] = bbands_df['BB_LOWER']
+top_ten_marketcap['stoch_k'] = TA.STOCH(top_ten_marketcap)
+top_ten_marketcap['stoch_d'] = TA.STOCHD(top_ten_marketcap)
+top_ten_marketcap['short_ema'] = TA.EMA(top_ten_marketcap, short_window)
+top_ten_marketcap['long_ema'] = TA.EMA(top_ten_marketcap, long_window)
+top_ten_marketcap.dropna(inplace=True)
+top_ten_marketcap.to_csv('Data/CurrentTopTen.csv')
