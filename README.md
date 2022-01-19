@@ -1,8 +1,11 @@
 <img src="Images/cryptara_logo_subtitle.png" width="1000"/>
 
-># A desktop application:
->### ~  Market analysis algorithm  
->### ~ Gateway to token-swapping transactions using the Ethereum network with the Cryptara platform (TaraSwap)
+---
+---
+
+># *Desktop application*
+>### *  Market analysis algorithm  
+>### *  Gateway to token-swapping on the Ethereum network with (TaraSwap)
 
 #
 
@@ -46,7 +49,6 @@ ___
 python main.py  
 ```
 
-
 ![bc](Images/taraui.png)
 =======
 
@@ -72,8 +74,13 @@ python main.py
   - This feature requires an active TradingView & Twitter Developer account
 ___
 
-<img src="Images/taraswap_screenshot.PNG" width="500"/>
-___
+<img src="Images/taraswap_screenshot.png" width="500"/>
+
+---
+
+<img src="Images/lstm-results.png" width="500"/>
+
+---
 
 ![pyqt](Images/pyqt.png) ![pyqt2](Images/pyqt-style.png)
 

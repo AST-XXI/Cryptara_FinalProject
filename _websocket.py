@@ -207,7 +207,7 @@ try:
     top_ten_marketcap = tv.get_hist(
         symbol='CRYPTO10',
         exchange="EIGHTCAP",
-        interval=Interval.in_30_minute,n_bars=5000)
+        interval=Interval.in_daily,n_bars=5000)
     top_ten_marketcap.drop(columns=['volume'], inplace=True)
     top_ten_marketcap['adjusted'] = ((top_ten_marketcap['open']+top_ten_marketcap['high']+top_ten_marketcap['low']+top_ten_marketcap['close']) / 4)
     top_ten_marketcap['adjusted'] = top_ten_marketcap['adjusted'].astype('int64') 
