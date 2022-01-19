@@ -28,7 +28,6 @@
 - Provide key insight into the cryptocurrency market
 - Predict market-cap movement within 30 days using LSTM
 - Provide gateway to ethereum network via customized TaraSwap
-- Identify arbitrage opportunities in the market while utilizing bullish/bearish market momentum
 ---
 
 ## Required Installations & Environment setup 
