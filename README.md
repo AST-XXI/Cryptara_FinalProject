@@ -46,7 +46,7 @@ ___
 python main.py  
 ```
 
-![bc](Images/taraui.PNG)
+![bc](Images/taraui.png)
 
 ## Interacting with Application Buttons
 
