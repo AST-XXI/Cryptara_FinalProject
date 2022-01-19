@@ -225,4 +225,4 @@ try:
     top_ten_marketcap.to_csv('Data/CurrentTopTen.csv')
 
 except:
-    print('ERROR: Live data requries an active TradingView & Twitter Developer account. See README for more information.')
+    print('ERROR: Live data requires an active TradingView & Twitter Developer account. See README for more information.')
