@@ -46,7 +46,7 @@ ___
 python main.py  
 ```
 
-![bc](Images\taraui.png)
+![bc](Images/taraui.png)
 
 ## Interacting with Application Buttons
 
@@ -64,7 +64,7 @@ python main.py
 
 ___
 
-![swap](Images\swap.jpg)
+![swap](Images/swap.jpg)
 ___
 
 ![pyqt](Images/pyqt.png) ![pyqt2](Images/pyqt-style.png)
