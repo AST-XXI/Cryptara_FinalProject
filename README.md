@@ -24,6 +24,8 @@
 
 ### CryptaraDAO🏛️
 
+<img src="/photos/CryptaraDAO.PNG" alt="drawing" width="500"/>
+
 - Created using Aragon Client
 - Mints tokens to Cryptara members
 - Creates company governance via voting system
