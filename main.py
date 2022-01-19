@@ -1,3 +1,4 @@
+#Note: Websocket functionality only works with active TradingView & Twitter Developer account.
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -59,17 +60,23 @@ class Main(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("Cryptara", u"MainWindow", None))
-        self.pushButton.setText(QCoreApplication.translate("Cryptara", u"Cryptara Algo", None))
-        self.pushButton.clicked.connect(self.results)
+        self.pushButton.setText(QCoreApplication.translate("Cryptara", u"Run Algorithm", None))
+        self.pushButton.clicked.connect(self.market_analysis)
         self.pushButton_2.setText(QCoreApplication.translate("Cryptara", u"TaraSwap", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Cryptara", u"Sentiment Analysis", None))
+        self.pushButton_2.clicked.connect(self.blockchain)
+        self.pushButton_3.setText(QCoreApplication.translate("Cryptara", u"Run Websocket", None))
         self.label.setText("")
         self.label_2.setText("")
 
 
-    def results(self):
+    def market_analysis(self):
         import _results
         _results.print_results()
+
+    def blockchain(self):
+        import webbrowser
+        url = 'https://ast-xxi.github.io/Cryptara_FinalProject/'
+        webbrowser.open_new_tab(url)
 
 def main():
     app = QApplication(sys.argv)
