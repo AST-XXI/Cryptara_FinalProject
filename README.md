@@ -32,7 +32,7 @@
 - Ability to manage company assets via treasury
 
 ##### How to login to CryptaraDAO🏛️
- ⚠️ *Must own [TARA](https://rinkeby.etherscan.io/token/0xd55bdc2e9b0ad60094829e76d85a39fadb9eddc7) token on Rinkeby Testnet*
+ > ⚠️ *Must own [TARA](https://rinkeby.etherscan.io/token/0xd55bdc2e9b0ad60094829e76d85a39fadb9eddc7) token on Rinkeby Testnet*
  
  - Point your MetaMask to Rinkeby Testnet
  - [Open this link](https://client.aragon.org/#/cryptaratest/) in your browser
