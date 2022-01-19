@@ -5,7 +5,7 @@
 
 ># *Desktop application*
 >### *  Market analysis algorithm  
->### *  Gateway to token-swapping on the Ethereum network with (TaraSwap)
+>### *  Gateway to token-swapping on the Ethereum network with our customized platform, TaraSwap.
 
 #
 
@@ -46,7 +46,7 @@ ___
 - Git bash or run in command line prompt
 
 ```bash
-python main.py  
+python main.py
 ```
 
 ![bc](Images/taraui.png)
