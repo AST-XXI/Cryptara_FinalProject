@@ -1,4 +1,4 @@
-![bc](Images/tara1.png)
+<img src="Images/cryptara_logo_subtitle.png" width="1000"/>
 
 ># A desktop application:
 >### ~  Market analysis algorithm  
