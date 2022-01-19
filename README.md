@@ -74,7 +74,7 @@ python main.py
   - This feature requires an active TradingView & Twitter Developer account
 ___
 ### Taraswap
-<img src="Images/taraswap_screenshot.png" width="500"/>
+<img src="Images/taraswap_screenshot.PNG" width="500"/>
 
 ---
 ### LSTM
