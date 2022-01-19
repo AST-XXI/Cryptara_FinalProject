@@ -18,9 +18,9 @@
 
 2) Cryptara Web3 Front End: [TaraSwap](https://ast-xxi.github.io/Cryptara_FinalProject/)💱
 
-- A plugin that allows users to swap tokens in-app
-- Moralis 1inch plugin integrates Defi/DEX aggregator 1inch
-- Works with Ethereum, Binance Smart Chain & Polygon blockchains
+- Web3 application that allows users to swap tokens in-app
+- Utilizes Moralis 1inch plugin which integrates DEX aggregator 1inch
+- Works with Ethereum blockchains
 
 ---
 
