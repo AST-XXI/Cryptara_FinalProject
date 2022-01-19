@@ -47,10 +47,14 @@ python main.py
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ![bc](Images/taraui.png)
 =======
 ![bc](Images/taraui.PNG)
 >>>>>>> 793f13306772d61fdcf3d224ccc00430d56dd78b
+=======
+![bc](Images/taraui.png)
+>>>>>>> 1e285ff44b120b938d1eb8c5f741ac9e0679297b
 
 ## Interacting with Application Buttons
 
