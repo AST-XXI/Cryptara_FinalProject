@@ -27,7 +27,7 @@
 ## Overview
 
 - Provide key insight into the cryptocurrency market
-- Predict market movement
+- Predict market-cap movement within 30 days using LSTM
 - Provide gateway to ethereum network via customized TaraSwap
 - Identify arbitrage opportunities in the market while utilizing bullish/bearish market momentum
 ---
@@ -73,11 +73,11 @@ python main.py
 
   - This feature requires an active TradingView & Twitter Developer account
 ___
-
+### Taraswap
 <img src="Images/taraswap_screenshot.png" width="500"/>
 
 ---
-
+### LSTM
 <img src="Images/lstm-results.png" width="500"/>
 
 ---
