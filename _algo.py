@@ -7,7 +7,7 @@ import pandas as pd
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 lemmatizer = WordNetLemmatizer()
-from runapp import Main
+from main import Main
 #Import dependencies
 from tradingview_ta import TA_Handler, Interval
 from finta import TA

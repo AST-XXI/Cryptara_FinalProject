@@ -16,9 +16,6 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)          
-        # self.pushButton.clicked.connect(self.click_button)
-        # self.pushButton.clicked.connect(self.clickButton())
-        # self.pushButton.clicked.connect(self.algo())
     
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -34,10 +31,6 @@ class Main(QMainWindow):
         self.pushButton_3 = QPushButton(self.widget)
         self.pushButton_3.setObjectName(u"pushButton_3")
         self.pushButton_3.setGeometry(QRect(370, 260, 121, 51))
-        # self.pushButton_4 = QPushButton(self.widget)
-        # self.pushButton_4.setObjectName(u"pushButton_4")
-        # self.pushButton_4.setGeometry(QRect(520, 260, 121, 51))
-        # self.pushButton_4.setCursor(QCursor(Qt.ForbiddenCursor))
         self.label = QLabel(self.widget)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(-4, -7, 721, 531))
@@ -53,7 +46,6 @@ class Main(QMainWindow):
         self.pushButton.raise_()
         self.pushButton_2.raise_()
         self.pushButton_3.raise_()
-        # self.pushButton_4.raise_()
         self.label_2.raise_()
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -68,13 +60,16 @@ class Main(QMainWindow):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("Cryptara", u"MainWindow", None))
         self.pushButton.setText(QCoreApplication.translate("Cryptara", u"Cryptara Algo", None))
+        self.pushButton.clicked.connect(self.results)
         self.pushButton_2.setText(QCoreApplication.translate("Cryptara", u"TaraSwap", None))
         self.pushButton_3.setText(QCoreApplication.translate("Cryptara", u"Sentiment Analysis", None))
-        # self.pushButton_4.setText(QCoreApplication.translate("Cryptara", u"NFT MarketPlace", None))
         self.label.setText("")
         self.label_2.setText("")
 
 
+    def results(self):
+        import _results
+        _results.print_results()
 
 def main():
     app = QApplication(sys.argv)
