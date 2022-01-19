@@ -43,7 +43,7 @@ for row in regex_data:
         nft_list.append(row)
 
 
-class print_results(Main):
+class algo(Main):
     print("")
     print("Big Movers in the Crypto Market:")
     print(movers)

@@ -65,18 +65,22 @@ class Main(QMainWindow):
         self.pushButton_2.setText(QCoreApplication.translate("Cryptara", u"TaraSwap", None))
         self.pushButton_2.clicked.connect(self.blockchain)
         self.pushButton_3.setText(QCoreApplication.translate("Cryptara", u"Run Websocket", None))
+        self.pushButton_3.clicked.connect(self.websocket)
         self.label.setText("")
         self.label_2.setText("")
 
 
     def market_analysis(self):
-        import _results
-        _results.print_results()
+        import _algo
+        _algo.algo()
 
     def blockchain(self):
         import webbrowser
         url = 'https://ast-xxi.github.io/Cryptara_FinalProject/'
         webbrowser.open_new_tab(url)
+
+    def websocket(self):
+        import _websocket
 
 def main():
     app = QApplication(sys.argv)
