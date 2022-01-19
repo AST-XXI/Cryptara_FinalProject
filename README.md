@@ -9,12 +9,10 @@
 
 #
 
-1) Covalent/Blockchain Data API
+1) Market Analysis Algorithm
 
-- Access organized multichain blockchain data
-- Gather historical data from all main chains
-- Access to Defi & NFT & on-chain metrics
-- Run data analysis through ML portion
+- Collects oscillator and momentum indicators from TradingView
+- Runs classification model to determine buy/sell/hold
 
 2) Cryptara Web3 Front End: [TaraSwap](https://ast-xxi.github.io/Cryptara_FinalProject/)💱
 
