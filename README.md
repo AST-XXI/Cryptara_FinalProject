@@ -33,6 +33,7 @@
 ## Required Installations & Environment setup 
 
 - Be sure to make the proper installations before running the Cryptara App
+- You can find a link to sign up for TradingView & Twitter Developer accounts below.
 - We highly encourge users to clone the Cryptara environment file via cryptara.yml
 ```bash
 conda env create --file cryptara.yml
@@ -89,7 +90,6 @@ ___
 ----
 
 ![tv](Images/tv.png)
-
 >## What is TradingView?
 > [TradingView](https://www.tradingview.com/) is a charting platform and a social network with over 30 million + users. TradingView provides latest (real time) stock, futures, index, Forex and cryptocurrencies data.
 >
@@ -97,7 +97,7 @@ ___
 ___
 
 ![twt](Images/twitter.png)
-
+> [Twitter Developer Account](https://developer.twitter.com/en)
 >## What is Twitter?
 >Twitter is one of the largest social networking sites, where users can communicate using "tweets". Trending hashtags and topics keep users up to date with the latest conversations. [#bitcoin](https://twitter.com/search?q=%23bitcoin) [$ETH](https://twitter.com/i/topics/1007361429752594432)
 ____
