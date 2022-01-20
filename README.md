@@ -89,7 +89,8 @@ ___
 
 ----
 >## What is LunarCrush?
->
+>![LunarCrush](Images/lunarcrushlogo.png)
+
 >LunarCrush is a social metric tool that gathers social data across multiple social platforms including Youtube, Twitter, Reddit, and News Articles. It gathers social trends and applies sentiment tools to price and market data for thousands of coins in the crypto market. Get top influencers for coins in your portfolio or use it as a tool to predict future trends in the crypto market. Grab a LunarCrush developer API key base plan (free), or a higher tier paid plan [here](https://legacy.lunarcrush.com/developers/pricing).
 >
 ---
