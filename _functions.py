@@ -1,5 +1,4 @@
-# Extract Algo & NLP results from Funcationality folders
-
+# This script defines functions used throughout the script
 from datetime import datetime, timedelta
 import os
 time = datetime.now()
@@ -39,6 +38,7 @@ fng_feature = 0
 fng_target = 1
 window_size = 10
 
+#NLP data cleaning functions
 def clean_text(text):
     regex = re.compile("[^a-zA-Z0-9]")
     re_clean = regex.sub(' ', text)
@@ -65,6 +65,7 @@ def percent_sign(x):
     return "{:,.2f}%".format(x)
 
 
+# This function is optional as bot relies on LSTM model to make predictions.
 def algo_strategy(time_series):
     buy_price=0
     trend_cnt=0
@@ -163,7 +164,7 @@ def algo_strategy(time_series):
         previous_returns = returns
 
 
-
+#Configure LSTM mdoel architecture 
 def window_data(df, window, feature_col_number, target_col_number):
     X = []
     y = []

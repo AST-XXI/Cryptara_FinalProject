@@ -1,4 +1,4 @@
-# Live data requires an active TradingView and Twitter Developer account. See README for more information.
+# Live data requires an active TradingView and Twitter Developer account. 
 from datetime import datetime, timedelta
 import os
 time = datetime.now()
@@ -29,14 +29,14 @@ cg = CoinGeckoAPI()
 coins = cg.get_coins()
 screener = 'CRYPTO'
 
-#Activate environment variables
+#Activate environment variables and configure websocket.
 consumer_key = os.getenv("tapi_key")
 consumer_secret = os.getenv("tapi_secret")
 access_token = os.getenv("taccess_token")
 access_secret = os.getenv("taccess_secret")
 bearer_token = os.getenv("tbearer_token")
 
-#Twitter credentials
+
 authenticate = tweepy.OAuthHandler(consumer_key, consumer_secret)
 authenticate.set_access_token(access_token, access_secret)
 api = tweepy.API(authenticate, wait_on_rate_limit = True)
@@ -63,7 +63,7 @@ print('')
 
 influencers = ['CryptoPriceCall','HourlyBTCUpdate','whale_alert', 'nftwhalealert']
 
-#Extract 15 tweets from each twitter user timeline
+#Extract 10 tweets from each twitter-bot
 recent_twitter_df = pd.DataFrame()
 try:
 
@@ -204,6 +204,7 @@ try:
     print(f'Extracted prices and calculated oscillator/momentum indicator values')
 
 
+#Extract top ten crypto market cap price history
     top_ten_marketcap = tv.get_hist(
         symbol='CRYPTO10',
         exchange="EIGHTCAP",

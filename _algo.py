@@ -1,3 +1,4 @@
+#Import libraries and dependensies
 from datetime import datetime, timedelta
 import os
 from _functions import *
@@ -15,6 +16,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 seed(1)
 random.set_seed(2)
+
+#Read csv results, these csv files are replenished when 'Algo' pushbutton is activated
 algo_path = r"Data/Functionality/TradingView/"
 big_movers = pd.read_csv('Data/Functionality/Twitter/big_movers.csv')
 big_movers_df = big_movers['Tweets']
@@ -28,6 +31,7 @@ market_cap = market_cap[['candle','adjusted']]
 tickers = tickers.index.values.tolist()
 extension = '.csv'
 
+#Run lstm on most recent crypto market-cap data
 predictions = run_lstm(market_cap, window_size, close_feature, close_target)
 real_price = predictions['Real'][-1]
 predicted_price = predictions['Predicted'][-1]
@@ -35,7 +39,7 @@ increase = percent_sign((predicted_price-real_price)/real_price)
 decrease = percent_sign((real_price-predicted_price)/real_price)
 predictions.tail()
 
-
+#Format NLP data for printed analysis
 big_string=''.join([str(item) for item in big_movers_df])
 movers = re.findall('([A-Z]+)', big_string)
 movers = [val for val in movers if val in tickers]
@@ -64,6 +68,7 @@ for row in regex_data:
         nft_list.append(row)
 
 
+# Read results. This is the 'Algo' push button source code 
 class algo(Main):
     print("")
     print("Big Movers in the Crypto Market:")
