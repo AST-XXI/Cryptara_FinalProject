@@ -77,7 +77,7 @@ ___
 
 ---
 ### LSTM & Sentiment Analysis
-<img src="Images/lstm-results.png" width="500"/>
+<img src="Images/lstm_results.png" width="500"/>
 
 ---
 
