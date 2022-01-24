@@ -20,7 +20,13 @@ random.set_seed(2)
 #Read csv results, these csv files are replenished when 'Algo' pushbutton is activated
 algo_path = r"Data/Functionality/TradingView/"
 big_movers = pd.read_csv('Data/Functionality/Twitter/big_movers.csv')
+twitter_handle = pd.read_csv('Data/Functionality/Twitter/twitter_handle.csv')
+twitter_handle = (twitter_handle['0']).tolist()
 big_movers_df = big_movers['Tweets']
+twitter_market_sentiment = pd.read_csv('Data/Functionality/Twitter/crypto_tweet_sentiment.csv')
+influencer_positive = format_convert(twitter_market_sentiment['positive'].mean())
+influencer_negative = format_convert(twitter_market_sentiment['negative'].mean())
+influencer_neutral = format_convert(twitter_market_sentiment['neutral'].mean())
 bitcoin_df = pd.read_csv('Data/Functionality/Twitter/bitcoin.csv')
 blockchain_df = pd.read_csv('Data/Functionality/Twitter/blockchain.csv')
 nft_df = pd.read_csv('Data/Functionality/Twitter/nft.csv')
@@ -67,8 +73,7 @@ for row in regex_data:
     else:
         nft_list.append(row)
 
-
-# Read results. This is the 'Algo' push button source code 
+# Read results. 'Algo' push button source code: 
 class algo(Main):
     print("")
     print("Big Movers in the Crypto Market:")
@@ -86,6 +91,17 @@ class algo(Main):
     print(f'1 Hour Movement: {percent_sign(btc_onehr)}')
     print(f'5 Hour Movement: {percent_sign(btc_fivehr)}')
     print(f'24 Hour Movement: {percent_sign(btc_24hr)}')
+    print('')
+    print('')
+    print('According to Lunar Crush,')
+    print('The most popular cryptocurrencies are influenced by these Twitter Handles:')
+    print(twitter_handle)
+    print('')
+    print('Here is the sentiment of the latest tweets from these influencers:')
+    print(f'Positive: {influencer_positive}')
+    print(f'Negative: {influencer_negative}')
+    print(f'Neutral: {influencer_neutral}')
+    print('')
     print('')
     if predicted_price > real_price:
         print(f'Our Deep Learning Model suggest total crypto market-cap will increase by {increase} within 30 days.')

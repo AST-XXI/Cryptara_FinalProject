@@ -4,7 +4,10 @@ import os
 time = datetime.now()
 import pandas as pd
 from nltk.stem import WordNetLemmatizer
+import urllib.request
 from nltk.tokenize import word_tokenize
+import ssl
+import json
 lemmatizer = WordNetLemmatizer()
 from _functions import *
 from main import Main
@@ -12,6 +15,7 @@ from main import Main
 from tradingview_ta import TA_Handler, Interval
 from finta import TA
 from pyod.models.copod import COPOD
+import pprint
 import pandas as pd 
 import numpy as np
 from pycoingecko import CoinGeckoAPI
@@ -36,10 +40,23 @@ access_token = os.getenv("taccess_token")
 access_secret = os.getenv("taccess_secret")
 bearer_token = os.getenv("tbearer_token")
 
+ssl._create_default_https_context = ssl._create_unverified_context
+api_key = os.getenv("lunar_key")
+pp = pprint.PrettyPrinter(indent=4)
 
 authenticate = tweepy.OAuthHandler(consumer_key, consumer_secret)
 authenticate.set_access_token(access_token, access_secret)
 api = tweepy.API(authenticate, wait_on_rate_limit = True)
+
+#Most popular cryptocurrencies
+coin_list = [
+    "DOGE",
+    "SHIB",
+    "AVAX",
+    "ADA",
+    "ETH",
+    "BTC",
+]
 
 #Extract top 50 market cap coins
 tickers = []
@@ -61,11 +78,95 @@ print(tickers_denominated)
 print('')
 print('')
 
+#Twitter Bots
 influencers = ['CryptoPriceCall','HourlyBTCUpdate','whale_alert', 'nftwhalealert']
 
-#Extract 10 tweets from each twitter-bot
-recent_twitter_df = pd.DataFrame()
+symbol = []
+twitter_handle = []
+
 try:
+
+        #LUNARCRUSH API
+    for coin in coin_list:
+        url = "https://api.lunarcrush.com/v2?data=influencers&key="+api_key+"&symbol="+coin+"&limit=3"
+        assets = json.loads(urllib.request.urlopen(url).read())
+        for asset in assets['data']:
+            twitter_handle.append(str(asset['twitter_screen_name']))
+
+
+    influencers_df = twitter_handle
+    influencer_posts_df = pd.DataFrame()
+
+    for influencer in influencers_df:
+        recent_posts = api.user_timeline(screen_name = influencer, count=10, tweet_mode='extended')
+        data = pd.DataFrame( [tweet.full_text for tweet in recent_posts] , columns=['Tweets'])
+        influencer_posts_df = influencer_posts_df.append(data)
+
+    #new columns
+    influencer_posts_df['Subjectivity'] = influencer_posts_df['Tweets'].apply(get_subjectivity)
+    influencer_posts_df['Polarity'] = influencer_posts_df['Tweets'].apply(get_polarity)
+
+    #create new column for analysis    
+    influencer_posts_df['Analysis'] = influencer_posts_df['Polarity'].apply(get_analysis)
+
+
+    #apply clean text
+    influencer_posts_df['Tweets'] = influencer_posts_df['Tweets'].apply(cleaner_text)
+
+    #write to csv
+    influencer_posts_df.to_csv('Data/Functionality/Twitter/influencer_twitter_sentiment.csv')
+
+
+    sources = "twitter"
+    symbol =[]
+    recent_tweets = []
+
+    #LUNAR TOP FEED
+    for coin in coin_list:
+        url = "https://api.lunarcrush.com/v2?data=feeds&key=jaxk68993earvoogjbi86a&symbol="+coin+"&limit=5&sources="+sources
+        assets = json.loads(urllib.request.urlopen(url).read())
+        #pp.pprint(assets)
+        for asset in assets['data']:
+            #print("Symbol: " +asset['symbol'])
+            symbol.append(asset['symbol'])
+            #print("Text: "+asset['body'])
+            recent_tweets.append(asset['body'])
+
+
+
+            
+    #tweets dictionary matchin symbol - tweet
+    tweets_data = {'Symbol':symbol,'Tweet':recent_tweets}
+    #append list to dataframe
+    recent_tweets_df = pd.DataFrame(tweets_data, columns=['Symbol','Tweet'])
+
+    #clean tweets text
+    recent_tweets_df['Tweet'] = recent_tweets_df['Tweet'].apply(cleaner_text)
+
+
+    recent_tweets_df['compound']=recent_tweets_df['Tweet'].apply(get_compound_sent)
+    recent_tweets_df['positive']=recent_tweets_df['Tweet'].apply(get_positive)
+    recent_tweets_df['negative']=recent_tweets_df['Tweet'].apply(get_negative)
+    recent_tweets_df['neutral']=recent_tweets_df['Tweet'].apply(get_neutral)
+
+
+
+
+    #write to CSV
+    recent_tweets_df.to_csv('Data/Functionality/Twitter/crypto_tweet_sentiment.csv')
+
+    # Create a list of stopwords
+    stop_words = stopwords.words('english')
+
+
+    #create tokens column
+    recent_tweets_df['tokens']=recent_tweets_df['Tweet'].apply(tokenizer)
+
+    tokens = recent_tweets_df['Tweet']
+    top_10_words = token_count(tokens)
+
+    #Extract 15 tweets from each twitter user timeline
+    recent_twitter_df = pd.DataFrame()
 
     for influencer in influencers:
         recent_posts = api.user_timeline(screen_name = influencer, count=10, tweet_mode='extended')
@@ -135,7 +236,6 @@ try:
     tradev_secret_key = os.getenv("password_tv")
     from tvDatafeed import TvDatafeed,Interval
 
-
     tradev_id = os.getenv("username")
     tradev_secret_key = os.getenv("password_tv")
     tv = TvDatafeed(tradev_id, tradev_secret_key, chromedriver_path=None)
@@ -204,7 +304,6 @@ try:
     print(f'Extracted prices and calculated oscillator/momentum indicator values')
 
 
-#Extract top ten crypto market cap price history
     top_ten_marketcap = tv.get_hist(
         symbol='CRYPTO10',
         exchange="EIGHTCAP",

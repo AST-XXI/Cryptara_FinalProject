@@ -76,7 +76,7 @@ ___
 <img src="Images/taraswap_screenshot.PNG" width="500"/>
 
 ---
-### LSTM
+### LSTM & Sentiment Analysis
 <img src="Images/lstm-results.png" width="500"/>
 
 ---

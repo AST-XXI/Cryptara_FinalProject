@@ -1,4 +1,5 @@
 # This script defines functions used throughout the script
+
 from datetime import datetime, timedelta
 import os
 time = datetime.now()
@@ -16,11 +17,15 @@ from pycoingecko import CoinGeckoAPI
 from textblob import TextBlob
 from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
+from collections import Counter
 from datetime import datetime, timedelta
+from nltk.corpus import stopwords
 from pandas import json_normalize
 import re
 import tweepy
 import matplotlib.pyplot as plt
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+analyzer = SentimentIntensityAnalyzer()
 import numpy as np
 import pandas as pd
 import hvplot.pandas
@@ -63,6 +68,75 @@ def dollar_sign(x):
 
 def percent_sign(x):
     return "{:,.2f}%".format(x)
+
+def cleaner_text(text):
+    text= re.sub(r'@[A-Za-z0-9]+', '', text) 
+    text = re.sub(r'#','', text) 
+    text = re.sub(r'RT[\s]+','', text)
+    text = re.sub(r'https?:\/\/\S+','', text) 
+    return text
+
+#NLP - Analyze polarity
+def get_analysis(score):
+    if score <0:
+        return 'Negative'
+    elif score == 0:
+        return 'Neutral'
+    else:
+        return 'Positive'
+
+
+def get_subjectivity(text):
+    return TextBlob(text).sentiment.subjectivity
+    
+
+def get_polarity(text):
+    return TextBlob(text).sentiment.polarity
+
+
+def get_compound_sent(text):
+    sentiment = analyzer.polarity_scores(text)
+    compound = sentiment['compound']
+    return compound
+
+def get_positive(text):
+    sentiment = analyzer.polarity_scores(text)
+    pos = sentiment["pos"]
+    return pos
+def get_negative(text):
+    sentiment = analyzer.polarity_scores(text)
+    neg = sentiment["neg"]
+    return neg
+def get_neutral(text):
+    sentiment = analyzer.polarity_scores(text)
+    neu = sentiment["neu"]
+    return neu
+
+def tokenizer(text):
+    """Tokenizes text."""
+    sw = set(stopwords.words('english'))
+    regex = re.compile("[^a-zA-Z ]")
+    re_clean = regex.sub('', text)
+    words = word_tokenize(re_clean)
+    lem = [lemmatizer.lemmatize(word) for word in words]
+    tokens = [word.lower() for word in lem if word.lower() not in sw]
+    return tokens
+
+def process_text(text):
+    sw = set(stopwords.words('english'))
+    regex = re.compile("[^a-zA-Z ]")
+    re_clean = regex.sub('', text)
+    words = word_tokenize(re_clean)
+    lem = [lemmatizer.lemmatize(word) for word in words]
+    output = [word.lower() for word in lem if word.lower() not in sw]
+    return output
+
+def token_count(tokens, N=10):
+    big_string = ' '.join(tokens)
+    tokens = process_text(big_string)
+    top_10 = Counter(tokens).most_common(10)
+    top_10_df = pd.DataFrame((top_10), columns=['word','count'])
+    return top_10_df
 
 
 # This function is optional as bot relies on LSTM model to make predictions.
